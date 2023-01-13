@@ -162,11 +162,11 @@ module.exports = {
 		'repos.remove': {
 			params: {
 				username: { type: "string", optional: false },
-				repo: { type: "string", optional: false },
+				name: { type: "string", optional: false },
 			},
 			async handler(ctx) {
 				const params = Object.assign({}, ctx.params);
-				return this.get(`repos/${params.username}/${params.repo}`)
+				return this.delete(`repos/${params.username}/${params.name}`)
 			}
 		},
 
@@ -187,13 +187,13 @@ module.exports = {
 
 			console.log(result)
 		},
-		async "accounts.created"(ctx) {
-			const owner = ctx.params.data;
+		async "repos.removed"(ctx) {
+			const repo = ctx.params.data;
 
-			const result = await this.actions['users.create']({
-				email: owner.email,
-				username: owner.username,
-				password: owner.username,
+			const owner = await ctx.call('v1.accounts.resolve', { id: repo.owner })
+			const result = await this.actions['repos.remove']({
+				name: repo.name,
+				username: owner.username
 			})
 
 			console.log(result)
