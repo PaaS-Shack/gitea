@@ -36,7 +36,7 @@ module.exports = {
 			rest: 'POST /',
 			async handler(ctx) {
 				const params = Object.assign({}, ctx.params);
-				console.log(Object.keys(params))
+				console.log(Object.keys(params), params)
 				if (params.head_commit) {
 					const commitData = params.head_commit;
 
