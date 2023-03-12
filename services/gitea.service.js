@@ -67,6 +67,9 @@ module.exports = {
 					this.logger.info(`New commit ${commit.hash})(${commit.id}) has been summited by ${pusher.username}(${pusher.id})`)
 
 				}
+
+				await ctx.emit('gitea.webhook', params);
+
 				return {}
 			}
 		},
